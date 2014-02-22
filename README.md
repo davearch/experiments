@@ -1,7 +1,8 @@
-experiments
+Experiments
 ===========
 
 My solutions to the mega project ideas list (http://www.dreamincode.net/forums/topic/78802-martyr2s-mega-project-ideas-list/)
-Most will be in java or python but I might do some other languages too.
 
-I might also add Project Euler assignments, if I do I will mark them as such.
+I will try to implement a variety of languages (java, python, lisp, etc.)
+
+I also have a directory of project Euler, which I plan on finishing before the end of the year.
