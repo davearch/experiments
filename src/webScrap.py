@@ -19,6 +19,7 @@ def get_reconstruction_links(basinURL):
     reconstructionLinks = [area["href"] for area in soup.findAll("area")]
 #    print reconstructionLinks
     return reconstructionLinks
+
 def manipulate_links(reconLinks):
     newLinks = []
     if '#' in reconLinks:
@@ -32,7 +33,8 @@ def manipulate_links(reconLinks):
 
 def download_images(reconLink):
     soup = make_soup(reconLink)
-    trs  = soup.find('td', {'class':'rightcolumn'})
+    trs  = soup.find('td', {"class":"rightcolumn"})
+    print trs
     images = [img["src"] for img in trs.findAll("img")]
     print images
 #    images = [img["src"] for img in trs.findAll("img")]
