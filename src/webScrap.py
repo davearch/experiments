@@ -5,6 +5,12 @@ import re
 import sys
 
 BASE_URL = "http://www.treeflow.info"
+BAD      = ['#', '../']
+BASINS   = ['upco',   'loco', 
+            'riogr',  'ark', 
+            'platte', 'upmo', 
+            'cali',   'pnw', 
+            'grba',   'midatl']
 
 def make_soup(url):
     html = urlopen(url).read()
@@ -23,26 +29,40 @@ def get_reconstruction_links(basinURL):
     return reconstructionLinks
 
 def manipulate_links(reconLinks):
+    bad = ['#', '../', 'upco', 'loco', 'riogr',
+           'ark', 'platte', 'upmo', 'cali', 'pnw',
+           'grba', 'midatl']
     newLinks = []
-    if '#' in reconLinks:
-        reconLinks.remove('#')
     for recon in reconLinks:
-        if '../' in recon:
-            recon = recon[3:]
-        recon = BASE_URL + '/' + recon
-        newLinks.append(recon)
+#        if any(x in recon for x in bad):
+#            print recon.split(x,1)
+        for b in bad:
+#            if b in  recon:
+#                newb = recon.split(b,1)
+#                print newb[1]
+            if [i for i in b if i in bad]:
+                print ''
+#    if '#' in reconLinks:
+#        reconLinks.remove('#')
+#    for recon in reconLinks:
+#        if '../' in recon:
+#            recon = recon[3:]
+#        recon = BASE_URL + '/' + recon
+#        newLinks.append(recon)
     return newLinks
 
 ### cant get to work
-def download_images(reconLink):
-    try:
-        soup = make_soup(reconLink)
-        for div in soup.find_all('div'):
-            print div
-    except:
-        print 'INCORRECT URL:' + reconLink + '\n'
+#def download_images(reconLink):
+#    try:
+#        soup = make_soup(reconLink)
+#        for div in soup.find_all('div'):
+#            print div
+#    except:
+#        print 'INCORRECT URL:' + reconLink + '\n'
+###
 
 def grepImageLinks(file):
+    imLinks = []
     dontWant = ['http://treeflow.info/images/wwa_logo.jpg', 
                 'http://treeflow.info/images/University-of-Colorado.jpg', 
                 'http://treeflow.info/images/climas.png', 
@@ -54,7 +74,8 @@ def grepImageLinks(file):
         if [i for i in x if i in dontWant]:
             x.remove(i)
         elif len(x) > 0:
-            print x
+            imLinks.append(x)
+    return imLinks
 ###
 
 def extractRecon(basin):
@@ -65,15 +86,15 @@ def extractRecon(basin):
 
 
 if __name__ == '__main__':
-    treeflow = ("http://www.treeflow.info")
-
-    basins = get_basin_links(treeflow)
-#    basinMiddle = []
+    basins = get_basin_links(BASE_URL)
     for basin in basins:
+        print '*** BASIN: ' + basin
         # e.g.: upco
         reconAlone = extractRecon(basin)
         # unfiltered links. e.g., ../basin.html
         recons = get_reconstruction_links(basin)
+        for recon in recons:
+            print recon
         # links without basin subdirectory e.g., treeflow.info/blah.html
         # instead of treeflow.info/upco/blah.html
         newList = manipulate_links(recons)
@@ -81,16 +102,17 @@ if __name__ == '__main__':
         imageLinks = []
         for item in newList:
             newItem = item[:24] + '/' + reconAlone + item[24:]
-            file = reconAlone + str(count)
+            file = '/tmp/' + reconAlone + str(count)
             url = newItem
-            response = urlopen(url)
-
-            # open the file for writing
-            fh = open (file, "w")
-            fh.write(response.read())
-            fh.close()
-            images = grepImageLinks(file)
-            imageLinks.append(images)
-
-            count += 1
+            try:
+                response = urlopen(url)
+                # open the file for writing
+                fh = open (file, "w")
+                fh.write(response.read())
+                fh.close()
+                images = grepImageLinks(file)
+                imageLinks.append(images)
+                count += 1
+            except:
+                print '*** INCORRECT URL:' + url
 #            imgs = download_images(newItem)
