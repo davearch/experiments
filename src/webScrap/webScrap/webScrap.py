@@ -32,15 +32,11 @@ def manipulate_links(reconLinks):
 
 def grepImageLinks(file):
     imLinks = []
-    dontWant = ['http://treeflow.info/images/wwa_logo.jpg', 
-                'http://treeflow.info/images/University-of-Colorado.jpg', 
-                'http://treeflow.info/images/climas.png', 
-                'http://treeflow.info/images/arizonalogo.gif']
     fh = open(file)
     for line in fh:
         line = line.rstrip()
         x = re.findall('src="([^"]*)"', line)
-        if [i for i in x if i in dontWant]:
+        if [i for i in x if i in DONT_WANT]:
             x.remove(i)
         elif len(x) > 0:
             imLinks.append(x)
@@ -67,7 +63,7 @@ def curlFile(url, name):
 def main(args=sys.argv[1:]):
     try:
         if not args[1]:
-            args[1] = BASE_URL
+            args = BASE_URL
             basins = get_basin_links(args)
             for basin in basins:
                 print '*** BASIN: ' + basin
