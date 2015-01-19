@@ -5,14 +5,6 @@ from bs4 import BeautifulSoup
 from urllib2 import urlopen
 from time import sleep
 
-#BASE_URL = "http://www.treeflow.info"
-#BAD      = ['#', '../']
-#BASINS   = ['upco',   'loco', 
-#            'riogr',  'ark', 
-#            'platte', 'upmo', 
-#            'cali',   'pnw', 
-#            'grba',   'midatl']
-
 def make_soup(url):
     html = urlopen(url).read()
     return BeautifulSoup(html, "lxml")
