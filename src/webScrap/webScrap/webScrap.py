@@ -92,7 +92,9 @@ def main(args=sys.argv[1:]):
                     except:
                         print '*** INCORRECT URL:' + url
         else:
-            print "args[1] not registering"
+            print "args = " + str(args).strip()
+            raise
     except:
-        print "USAGE: webScrap -> URL"
+        print "args = " + str(args).strip()
+        raise
         return 0
