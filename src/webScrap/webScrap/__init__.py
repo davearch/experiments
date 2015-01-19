@@ -6,7 +6,7 @@ __author__  = 'David Archuleta'
 __version__ = '0.1.0'
 __licence__ = 'BSD'
 
-class treeflow:
+class TreeFlow:
     """TreeFlow specific constants."""
     BASE_URL = "http://www.treeflow.info"
     BAD      = ('#', '../')

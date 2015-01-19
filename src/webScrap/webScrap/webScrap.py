@@ -60,11 +60,19 @@ def curlFile(url, name):
         print url
         raise
 
-def main(args=sys.argv[1:]):
+def index_containing_substr(theList, substr):
+    for i, s in enumerate(theList):
+        if substr in s:
+            print i
+            return i
+    return -1
+
+def main(args=sys.argv):
     try:
-        if not args[1]:
-            args = BASE_URL
-            basins = get_basin_links(args)
+        if any("http" in arg for arg in args):
+            url = args[index_containing_substr(args, "http")]
+            print url
+            basins = get_basin_links(url)
             for basin in basins:
                 print '*** BASIN: ' + basin
                 # e.g.: upco
@@ -93,7 +101,6 @@ def main(args=sys.argv[1:]):
                         print '*** INCORRECT URL:' + url
         else:
             print "args = " + str(args).strip()
-            raise
     except:
         print "args = " + str(args).strip()
         raise
