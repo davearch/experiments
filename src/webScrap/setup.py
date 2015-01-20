@@ -14,6 +14,7 @@ setup(
     description=webScrap.__doc__.strip(),
     long_description=long_description(),
     author=webScrap.__author__,
-    author_email='davearch@email.arizona.edu'
+    author_email='davearch@email.arizona.edu',
     license=webScrap.__licence__,
+    packages=find_packages(),
 )
