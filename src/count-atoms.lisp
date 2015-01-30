@@ -1,3 +1,5 @@
+;;; David Archuleta
+
 ;;; Exercise 1.3 from 'Paradigms of Artificial Intelligence Programming:
 ;;; Write a function that counts the number of atoms in an expression.
 ;;; For example: (count-atoms '(a (b) c)) = 3. Notice that there is something
